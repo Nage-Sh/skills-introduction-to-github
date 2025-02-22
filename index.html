@@ -6,32 +6,66 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <title>Sakhi</title>
     <script type="text/javascript">
-        function reset_msg() {
-                document.getElementById('msg').innerHTML = '';
+        function validateForm() {
+            var radios = document.getElementsByName('ushar');
+            var formValid = false;
+            var selectedValue = "";
+
+            for (var i = 0; i < radios.length; i++) {
+                if (radios[i].checked) {
+                    formValid = true;
+                    selectedValue = radios[i].value;
+                    break;
+                }
             }
-            function send() {
-            alert("Me")                
+
+            if (!formValid) {
+                showAlert("Please select an option.", "primary");
+            } else {
+                if (selectedValue === "ushar") {
+                    showAlert("I am very happy knowing you are Good.", "primary");
+                } else if (selectedValue === "usharly") {
+                    showAlert("Why are you like this when I am there for you <3.", "danger");
+                }
             }
+        }
+
+        function showAlert(message, type) {
+            var alertPlaceholder = document.getElementById('alertPlaceHolder');
+            alertPlaceholder.innerHTML = ''; // Clear any existing alerts
+
+            var alertDiv = document.createElement('div');
+            alertDiv.className = 'alert alert-' + type;
+            alertDiv.role = 'alert';
+            alertDiv.innerText = message;
+            alertPlaceholder.appendChild(alertDiv);
+        }
+
+        window.onload = function() {
+            var button = document.getElementById('styledButton');
+            button.addEventListener('click', function(event) {
+                event.preventDefault(); // Prevent default button behavior
+                validateForm();
+            });
+        }
     </script>
 </head>
 <body>
-    <h1>Please answer below Sakhi</h1>
+    <h1>Please answer below, Sakhi</h1>
     
     <form>
         <div class="mb-3 form-check">
-            <label for="" class="fst-italic fs-2 fw-medium text-danger" >How are you?</label>
+            <label for="" class="fst-italic fs-2 fw-medium text-danger">How are you?</label>
             <br>
-            <input type="radio" id="ushar" value="ushar" onclick="reset_msg()">
+            <input type="radio" id="ushar" value="ushar" name="ushar">
             <label for="ushar-ulle">Ushar-Ulle</label>
             <br>
-            <input type="radio" id="usharly" value="usharly" onclick="reset_msg()">
-            <label for="ushar-elle">Ushar-Elle</label>
-        
+            <input type="radio" id="usharly" value="usharly" name="ushar">
+            <label for="ushar-elle">Ushar-Elle</label><br>
+            <button type="button" id="styledButton" class="btn btn-primary">Please click here</button>
         </div>
-      </form>
-
-    <button type="button" class="btn btn-primary" id="styledButton" onclick="send">Please click here</button>
-
-
+    </form>
+    
+    <div id="alertPlaceHolder"></div>
 </body>
 </html>
